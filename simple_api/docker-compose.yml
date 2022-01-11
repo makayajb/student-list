@@ -1,0 +1,33 @@
+version: "3"
+services:
+  website:
+    image: php:apache
+    environment:
+      USERNAME: ""
+      PASSWORD: ""
+      API_URL:  172.17.0.2
+      API_PORT: 5000
+    volumes:
+      - POZOS:./website:/var/www/html
+    depends_on:
+      - api
+    expose:
+      - 80:80
+    networks:
+      student:
+
+  api:
+    build: ./simple_api
+    #build: student:v1.0
+    volumes:
+      - ./simple_api/data:/data
+    expose:
+      - 5000:5000
+    networks:
+      student:
+
+networks:
+  student:
+
+volumes:
+  data:
